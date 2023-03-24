@@ -32,6 +32,7 @@
     <orderEntry type="module" module-name="flexmark-ext-footnotes" />
     <orderEntry type="module" module-name="flexmark-ext-gfm-strikethrough" />
     <orderEntry type="module" module-name="flexmark-ext-gfm-tasklist" />
+    <orderEntry type="module" module-name="flexmark-ext-heading-anchors" />
     <orderEntry type="module" module-name="flexmark-ext-ins" />
     <orderEntry type="module" module-name="flexmark-ext-jekyll-front-matter" />
     <orderEntry type="module" module-name="flexmark-ext-jekyll-tag" />

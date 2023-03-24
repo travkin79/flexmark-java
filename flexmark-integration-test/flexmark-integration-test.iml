@@ -13,6 +13,7 @@
     <orderEntry type="library" scope="TEST" name="pegdown-1.6.7" level="project" />
     <orderEntry type="module" module-name="flexmark-ext-abbreviation" scope="TEST" />
     <orderEntry type="module" module-name="flexmark-ext-anchorlink" scope="TEST" />
+    <orderEntry type="module" module-name="flexmark-ext-heading-anchors" scope="TEST" />
     <orderEntry type="module" module-name="flexmark-ext-autolink" scope="TEST" />
     <orderEntry type="module" module-name="flexmark-ext-emoji" scope="TEST" />
     <orderEntry type="module" module-name="flexmark-ext-footnotes" scope="TEST" />

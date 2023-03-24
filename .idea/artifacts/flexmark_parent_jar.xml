@@ -15,6 +15,7 @@
       </element>
       <element id="module-output" name="flexmark-ext-gfm-tasklist" />
       <element id="module-output" name="flexmark-ext-anchorlink" />
+      <element id="module-output" name="flexmark-ext-heading-anchors" />
       <element id="module-output" name="flexmark-ext-aside" />
       <element id="module-output" name="flexmark-ext-definition" />
       <element id="module-output" name="flexmark-ext-escaped-character" />

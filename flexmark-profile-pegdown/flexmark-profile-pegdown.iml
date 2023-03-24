@@ -32,6 +32,7 @@
     <orderEntry type="module" module-name="flexmark" />
     <orderEntry type="module" module-name="flexmark-ext-abbreviation" />
     <orderEntry type="module" module-name="flexmark-ext-anchorlink" />
+    <orderEntry type="module" module-name="flexmark-ext-heading-anchors" />
     <orderEntry type="module" module-name="flexmark-ext-aside" />
     <orderEntry type="module" module-name="flexmark-ext-autolink" />
     <orderEntry type="module" module-name="flexmark-ext-definition" />

@@ -36,6 +36,7 @@
         <module name="flexmark-ext-aside" />
         <module name="flexmark-ext-media-tags" />
         <module name="flexmark-ext-yaml-front-matter" />
+        <module name="flexmark-ext-heading-anchors" />
         <module name="flexmark-ext-gfm-users" />
         <module name="flexmark-ext-emoji" />
         <module name="flexmark-ext-xwiki-macros" />

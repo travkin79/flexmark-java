@@ -16,6 +16,7 @@
     <orderEntry type="module" module-name="flexmark-ext-abbreviation" scope="TEST" />
     <orderEntry type="module" module-name="flexmark-ext-admonition" scope="TEST" />
     <orderEntry type="module" module-name="flexmark-ext-anchorlink" scope="TEST" />
+    <orderEntry type="module" module-name="flexmark-ext-heading-anchors" scope="TEST" />
     <orderEntry type="module" module-name="flexmark-ext-aside" scope="TEST" />
     <orderEntry type="module" module-name="flexmark-ext-attributes" scope="TEST" />
     <orderEntry type="module" module-name="flexmark-ext-autolink" scope="TEST" />
