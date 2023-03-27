@@ -41,13 +41,20 @@ public class HeadingAnchorNodePostProcessor extends NodePostProcessor {
                     int startIndex = headingText.lastIndexOf("{#");
                     int endIndex = headingText.lastIndexOf("}");
                     anchorNode.setChars(headingText.subSequence(startIndex, endIndex + 1));
+                    anchorNode.setAnchorId(headingText.subSequence(startIndex + 2, endIndex));
 
                     // remove the anchor chars from the heading title
                     Text headingTextNode = (Text) heading.getChildOfType(Text.class);
                     int index = headingTextNode.getChars().lastIndexOf(anchorNode.getChars());
-                    headingTextNode.setChars(headingTextNode.getChars().subSequence(0, index).trim());
+                    headingTextNode.setChars(headingTextNode.getChars().subSequence(0, index).trimEnd());
 
+                    //headingTextNode.insertBefore(anchorNode);
                     heading.appendChild(anchorNode);
+
+                    heading.setExplicitAnchorRefId(true);
+                    heading.setAnchorRefId(anchorNode.getAnchorId().toString());
+
+                    state.nodeAdded(anchorNode);
                 }
             }
         }

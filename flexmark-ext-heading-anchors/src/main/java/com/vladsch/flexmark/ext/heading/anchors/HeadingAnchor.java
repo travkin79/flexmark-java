@@ -6,20 +6,24 @@ import org.jetbrains.annotations.NotNull;
 
 public class HeadingAnchor extends Node {
 
+    private BasedSequence anchorId = BasedSequence.NULL;
+
     @Override
     public @NotNull BasedSequence[] getSegments() {
         return EMPTY_SEGMENTS;
     }
 
-    public String getAnchorId() {
-        // remove "{#" and "}"
-        int length = getChars().length();
-        return getChars().subSequence(2, length - 1).toString();
+    public void setAnchorId(BasedSequence anchorId) {
+        this.anchorId = anchorId;
+    }
+
+    public BasedSequence getAnchorId() {
+        return anchorId;
     }
 
     @NotNull
     @Override
     protected String toStringAttributes() {
-        return "anchorId=" + getAnchorId();
+        return "anchorId=" + getAnchorId().toString();
     }
 }

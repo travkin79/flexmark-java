@@ -1,11 +1,13 @@
 package com.vladsch.flexmark.ext.heading.anchors.internal;
 
+import com.vladsch.flexmark.ast.Heading;
 import com.vladsch.flexmark.ext.heading.anchors.HeadingAnchor;
 import com.vladsch.flexmark.html.HtmlWriter;
 import com.vladsch.flexmark.html.renderer.NodeRenderer;
 import com.vladsch.flexmark.html.renderer.NodeRendererContext;
 import com.vladsch.flexmark.html.renderer.NodeRendererFactory;
 import com.vladsch.flexmark.html.renderer.NodeRenderingHandler;
+import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.DataHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +25,8 @@ public class HeadingAnchorNodeRenderer implements NodeRenderer {
     }
 
     private void render(HeadingAnchor node, NodeRendererContext context, HtmlWriter html) {
-
+        String id = node.getAnchorId().toString();
+        html.attr("id", id);
     }
 
     public static class Factory implements NodeRendererFactory {
