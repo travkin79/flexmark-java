@@ -13,13 +13,10 @@ license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)'
 Automatically generates heading anchor nodes for heading nodes with anchor declarations of the form
 `# Some heading {#my_heading_anchor-7}`.
 
-```
-# Headings with anchors
-```
 
-Simple heading anchor example
+Simple heading anchor
 
-```````````````````````````````` example Headings with anchors: 1
+```````````````````````````````` example Heading Anchors: 1
 # Some Level-1 heading with anchor {#important_my-section-7}
 .
 <h1 id="important_my-section-7">Some Level-1 heading with anchor</h1>
