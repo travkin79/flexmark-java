@@ -26,3 +26,16 @@ Document[0, 60]
     Text[2, 34] chars:[2, 34, "Some  … nchor"]
     HeadingAnchor[35, 60]
 ````````````````````````````````
+
+
+Heading without anchor
+
+```````````````````````````````` example Heading Anchors: 2
+# Some Level-1 heading without anchor
+.
+<h1>Some Level-1 heading without anchor</h1>
+.
+Document[0, 37]
+  Heading[0, 37] textOpen:[0, 1, "#"] text:[2, 37, "Some Level-1 heading without anchor"]
+    Text[2, 37] chars:[2, 37, "Some  … nchor"]
+````````````````````````````````

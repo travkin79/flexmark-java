@@ -21,7 +21,7 @@ public class HeadingAnchorsSpecTest extends RendererSpecTest {
     final private static DataHolder OPTIONS = new MutableDataSet()
             .set(Parser.EXTENSIONS, Collections.singleton(HeadingAnchorExtension.create()))
             .set(HtmlRenderer.RENDER_HEADER_ID, true)
-            //.set(HtmlRenderer.GENERATE_HEADER_ID, true)
+            .set(HtmlRenderer.GENERATE_HEADER_ID, false)
             .toImmutable();
 
     final private static Map<String, DataHolder> optionsMap = new HashMap<>();
