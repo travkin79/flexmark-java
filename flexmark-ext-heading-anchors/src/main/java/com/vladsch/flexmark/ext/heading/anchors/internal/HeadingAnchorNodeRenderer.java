@@ -25,8 +25,6 @@ public class HeadingAnchorNodeRenderer implements NodeRenderer {
     }
 
     private void render(HeadingAnchor node, NodeRendererContext context, HtmlWriter html) {
-        String id = node.getAnchorId().toString();
-        html.attr("id", id);
     }
 
     public static class Factory implements NodeRendererFactory {
