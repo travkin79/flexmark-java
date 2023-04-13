@@ -8,7 +8,7 @@ license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)'
 
 ---
 
-## PlantUML Extension
+## PlantUML Block Extension
 
 flexmark-java extension for ...
 
