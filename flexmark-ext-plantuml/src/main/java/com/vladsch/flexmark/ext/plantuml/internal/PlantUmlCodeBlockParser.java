@@ -29,6 +29,10 @@ public class PlantUmlCodeBlockParser extends AbstractBlockParser {
 
     @Override
     public BlockContinue tryContinue(ParserState state) {
+        if (this.blockData.finished) {
+            return BlockContinue.none();
+        }
+
         if (state.isBlank()) {
             return BlockContinue.atIndex(state.getNextNonSpaceIndex());
         }
@@ -40,9 +44,10 @@ public class PlantUmlCodeBlockParser extends AbstractBlockParser {
             BlockData blockData = tryReadingEndMarker(line, this.blockData);
             if (blockData != null) {
                 this.blockNode.setEndMarker(blockData.endMarker);
+                this.blockData.finished = true;
                 //return BlockContinue.finished();
                 //return BlockContinue.atIndex(state.getNextNonSpaceIndex());
-                return BlockContinue.atIndex(state.getLineEndIndex());
+                return BlockContinue.atIndex(state.getIndex());
             } else {
                 //this.blockNode.setStartMarker(null);
                 //this.blockNode.setEndMarker(null);
@@ -50,12 +55,12 @@ public class PlantUmlCodeBlockParser extends AbstractBlockParser {
                 this.blockNode.unlink();
                 state.blockRemoved(this.blockNode);
                 //state.blockParserRemoved(this);
-                //return BlockContinue.none();
-                return BlockContinue.atIndex(this.blockData.startOffset);
+                return BlockContinue.none();
+                //return BlockContinue.atIndex(this.blockData.startOffset);
             }
         }
 
-        return BlockContinue.atIndex(state.getNextNonSpaceIndex());
+        return BlockContinue.atIndex(state.getIndex());
     }
 
     @Override
@@ -174,6 +179,8 @@ public class PlantUmlCodeBlockParser extends AbstractBlockParser {
         BasedSequence startMarker;
         BasedSequence endMarker;
         BasedSequence contents;
+
+        boolean finished = false;
 
         BlockData(PlantUmlMarker marker, int startOffset, BasedSequence startMarker) {
             this.marker = marker;
