@@ -1,6 +1,6 @@
 package com.vladsch.flexmark.ext.plantuml;
 
-public enum PlantUmlMarker {
+public enum PlantUmlBlockMarker {
     UML("@startuml", "@enduml"),
     UML_SALT("@startsalt", "@endsalt"),
     UML_YAML("@startyaml", "@endyaml"),
@@ -11,7 +11,7 @@ public enum PlantUmlMarker {
 
     private String startMarker, endMarker;
 
-    PlantUmlMarker(String startMarker, String endMarker) {
+    PlantUmlBlockMarker(String startMarker, String endMarker) {
         this.startMarker = startMarker;
         this.endMarker = endMarker;
     }
