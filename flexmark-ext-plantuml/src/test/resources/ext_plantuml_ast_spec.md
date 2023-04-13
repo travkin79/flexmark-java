@@ -43,18 +43,23 @@ Invalid PlantUML code block
     ArrayList ..|> List
 @endsomething
 .
-<p>
-@startuml
-    class ArrayList
-    interface List
-    
-    ArrayList ..|> List
-@endsomething
-</p>
+<p>@startuml
+class ArrayList
+interface List</p>
+<pre><code>ArrayList ..|&gt; List
+</code></pre>
+<p>@endsomething</p>
 .
 Document[0, 91]
-  Paragraph[0, 91]
-    Text[0, 91] chars:[0, 91, "@startu  … thing"]
+  Paragraph[0, 49] isTrailingBlankLine
+    Text[0, 9] chars:[0, 9, "@startuml"]
+    SoftLineBreak[9, 10]
+    Text[14, 29] chars:[14, 29, "class … yList"]
+    SoftLineBreak[29, 30]
+    Text[34, 48] chars:[34, 48, "inter …  List"]
+  IndentedCodeBlock[58, 78]
+  Paragraph[78, 91]
+    Text[78, 91] chars:[78, 91, "@ends … thing"]
 ````````````````````````````````
 
 PlantUML code block with context
