@@ -1,8 +1,8 @@
 ---
 title: PlantUML Block Extension Spec
-author:
+author: Dietrich Travkin
 version:
-date: '2016-06-06'
+date: '2023-06-26'
 license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)'
 ...
 
