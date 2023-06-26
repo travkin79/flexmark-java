@@ -7,9 +7,14 @@ import com.vladsch.flexmark.html.renderer.NodeRendererContext;
 import com.vladsch.flexmark.html.renderer.NodeRendererFactory;
 import com.vladsch.flexmark.html.renderer.NodeRenderingHandler;
 import com.vladsch.flexmark.util.data.DataHolder;
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.SourceStringReader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,9 +29,20 @@ public class PlantUmlBlockNodeRenderer implements NodeRenderer {
 
     private void render(PlantUmlBlockNode node, NodeRendererContext context, HtmlWriter htmlWriter) {
         htmlWriter.tagLine("figure").indent();
-        //context.renderChildren(node);
-        htmlWriter.append("<svg></svg>");
+        String plantUmlToHtmlResult = translatePlantUmlToHtml(node.getChars().toString());
+        htmlWriter.append(plantUmlToHtmlResult);
         htmlWriter.unIndent().tagLine("/figure");
+    }
+
+    private String translatePlantUmlToHtml(String plantUmlSourceCode) {
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+            SourceStringReader reader = new SourceStringReader(plantUmlSourceCode);
+            reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
+            return new String(os.toByteArray(), Charset.forName("UTF-8"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Could not render HTML from PlantUML source code.";
+        }
     }
 
     public static class Factory implements NodeRendererFactory {
