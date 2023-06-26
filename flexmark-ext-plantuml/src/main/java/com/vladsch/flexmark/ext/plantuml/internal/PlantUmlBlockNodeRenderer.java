@@ -7,15 +7,18 @@ import com.vladsch.flexmark.html.renderer.NodeRendererContext;
 import com.vladsch.flexmark.html.renderer.NodeRendererFactory;
 import com.vladsch.flexmark.html.renderer.NodeRenderingHandler;
 import com.vladsch.flexmark.util.data.DataHolder;
-import net.sourceforge.plantuml.FileFormat;
-import net.sourceforge.plantuml.FileFormatOption;
-import net.sourceforge.plantuml.SourceStringReader;
+import net.sourceforge.plantuml.*;
+import net.sourceforge.plantuml.preproc.Defines;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PlantUmlBlockNodeRenderer implements NodeRenderer {
@@ -43,6 +46,28 @@ public class PlantUmlBlockNodeRenderer implements NodeRenderer {
             e.printStackTrace();
             return "Could not render HTML from PlantUML source code.";
         }
+    }
+
+    private String translatePlantUmlToHtml(File plantUmlSourceFile) {
+        SourceFileReader reader;
+        try {
+            File tmpFile = File.createTempFile(plantUmlSourceFile.getName(), "-svg");
+            File targetDir = tmpFile.getParentFile();
+            reader = new SourceFileReader(Defines.createWithFileName(plantUmlSourceFile),
+                    plantUmlSourceFile, targetDir, Collections.<String>emptyList(), "UTF-8", new FileFormatOption(FileFormat.SVG));
+            //reader.setCheckMetadata(true);
+            List<GeneratedImage> list = reader.getGeneratedImages();
+
+            if (!list.isEmpty()) {
+                GeneratedImage img = list.get(0);
+                File targetFile = img.getPngFile();
+
+                return Files.readString(targetFile.toPath(), Charset.forName("UTF-8"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Could not render HTML from PlantUML source code.";
     }
 
     public static class Factory implements NodeRendererFactory {
