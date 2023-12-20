@@ -37,7 +37,7 @@
         <dependency>
             <groupId>com.vladsch.flexmark</groupId>
             <artifactId>flexmark-util-data</artifactId>
-            <version>0.64.0</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.plantuml</groupId>
