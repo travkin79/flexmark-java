@@ -11,9 +11,23 @@ import net.sourceforge.plantuml.*;
 import net.sourceforge.plantuml.preproc.Defines;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Collections;
@@ -33,7 +47,8 @@ public class PlantUmlBlockNodeRenderer implements NodeRenderer {
     private void render(PlantUmlBlockNode node, NodeRendererContext context, HtmlWriter htmlWriter) {
         htmlWriter.tagLine("figure").indent();
         String plantUmlToHtmlResult = translatePlantUmlToHtml(node.getChars().toString());
-        htmlWriter.append(plantUmlToHtmlResult);
+        String htmlFormatted = formatHtml(plantUmlToHtmlResult);
+        htmlWriter.noTrimLeading().append(htmlFormatted);
         htmlWriter.unIndent().tagLine("/figure");
     }
 
@@ -45,6 +60,25 @@ public class PlantUmlBlockNodeRenderer implements NodeRenderer {
         } catch (Exception e) {
             e.printStackTrace();
             return "Could not render HTML from PlantUML source code.";
+        }
+    }
+
+    private String formatHtml(String sourceHtmlCode) {
+        try {
+            Source xmlInput = new StreamSource(new StringReader(sourceHtmlCode));
+            StreamResult xmlOutput = new StreamResult(new StringWriter());
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformerFactory.setAttribute("indent-number", 4);
+            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            transformer.transform(xmlInput, xmlOutput);
+            return xmlOutput.getWriter().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return sourceHtmlCode;
         }
     }
 
