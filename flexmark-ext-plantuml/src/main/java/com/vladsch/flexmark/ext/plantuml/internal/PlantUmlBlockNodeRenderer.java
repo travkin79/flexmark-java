@@ -11,23 +11,18 @@ import net.sourceforge.plantuml.*;
 import net.sourceforge.plantuml.preproc.Defines;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Collections;
@@ -45,8 +40,12 @@ public class PlantUmlBlockNodeRenderer implements NodeRenderer {
     }
 
     private void render(PlantUmlBlockNode node, NodeRendererContext context, HtmlWriter htmlWriter) {
+        renderPlantUmlCode(node.getChars().toString(), htmlWriter);
+    }
+
+    void renderPlantUmlCode(String plantUmlSourceCode, HtmlWriter htmlWriter) {
         htmlWriter.tagLine("figure").indent();
-        String plantUmlToHtmlResult = translatePlantUmlToHtml(node.getChars().toString());
+        String plantUmlToHtmlResult = translatePlantUmlToHtml(plantUmlSourceCode);
         String htmlFormatted = formatHtml(plantUmlToHtmlResult);
         htmlWriter.noTrimLeading().append(htmlFormatted);
         htmlWriter.unIndent().tagLine("/figure");

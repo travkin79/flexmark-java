@@ -12,14 +12,14 @@ import org.junit.runners.Parameterized;
 import java.util.Collections;
 import java.util.List;
 
-public class ComboPlantUmlSpecTest extends RendererSpecTest {
+public class PlantUmlCodeBlockSpecTest extends RendererSpecTest {
     final private static String SPEC_RESOURCE = "/ext_plantuml_ast_spec.md";
     final public static @NotNull ResourceLocation RESOURCE_LOCATION = ResourceLocation.of(SPEC_RESOURCE);
     final private static DataHolder OPTIONS = new MutableDataSet()
             .set(Parser.EXTENSIONS, Collections.singleton(PlantUmlExtension.create()))
             .toImmutable();
 
-    public ComboPlantUmlSpecTest(@NotNull SpecExample example) {
+    public PlantUmlCodeBlockSpecTest(@NotNull SpecExample example) {
         super(example, Collections.emptyMap(), OPTIONS);
     }
 
