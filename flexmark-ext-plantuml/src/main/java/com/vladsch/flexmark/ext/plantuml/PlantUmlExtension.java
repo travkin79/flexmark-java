@@ -10,9 +10,12 @@ import com.vladsch.flexmark.util.data.MutableDataHolder;
 import com.vladsch.flexmark.util.data.NullableDataKey;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+
 public class PlantUmlExtension implements Parser.ParserExtension, HtmlRenderer.HtmlRendererExtension {
 
     final public static NullableDataKey<String> KEY_DOCUMENT_FILE_PATH = new NullableDataKey<>("DOC_FILE_PATH");
+    final public static NullableDataKey<Map<String,String>> KEY_DOCUMENT_PATH_TO_FILE_CONTENTS_MAP = new NullableDataKey<>("RELATIVE_PATH_TO_FILE_CONTENTS_MAP");
 
     private PlantUmlExtension() {
     }

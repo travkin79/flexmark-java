@@ -1,6 +1,7 @@
 package com.vladsch.flexmark.ext.plantuml.internal;
 
 import com.vladsch.flexmark.ext.plantuml.PlantUmlBlockNode;
+import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.html.HtmlWriter;
 import com.vladsch.flexmark.html.renderer.NodeRenderer;
 import com.vladsch.flexmark.html.renderer.NodeRendererContext;
@@ -40,13 +41,13 @@ public class PlantUmlBlockNodeRenderer implements NodeRenderer {
     }
 
     private void render(PlantUmlBlockNode node, NodeRendererContext context, HtmlWriter htmlWriter) {
-        renderPlantUmlCode(node.getChars().toString(), htmlWriter);
+        renderPlantUmlCode(node.getChars().toString(), htmlWriter, context);
     }
 
-    void renderPlantUmlCode(String plantUmlSourceCode, HtmlWriter htmlWriter) {
+    void renderPlantUmlCode(String plantUmlSourceCode, HtmlWriter htmlWriter, NodeRendererContext context) {
         htmlWriter.tagLine("figure").indent();
         String plantUmlToHtmlResult = translatePlantUmlToHtml(plantUmlSourceCode);
-        String htmlFormatted = formatHtml(plantUmlToHtmlResult);
+        String htmlFormatted = formatHtml(plantUmlToHtmlResult, context);
         htmlWriter.noTrimLeading().append(htmlFormatted);
         htmlWriter.unIndent().tagLine("/figure");
     }
@@ -62,12 +63,18 @@ public class PlantUmlBlockNodeRenderer implements NodeRenderer {
         }
     }
 
-    private String formatHtml(String sourceHtmlCode) {
+    private String formatHtml(String sourceHtmlCode, NodeRendererContext context) {
+        Integer indentSize = HtmlRenderer.INDENT_SIZE.get(context.getOptions());
+
+        if (indentSize == null) {
+            indentSize = 2;
+        }
+
         try {
             Source xmlInput = new StreamSource(new StringReader(sourceHtmlCode));
             StreamResult xmlOutput = new StreamResult(new StringWriter());
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            transformerFactory.setAttribute("indent-number", 4);
+            transformerFactory.setAttribute("indent-number", indentSize.intValue());
             transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
             transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
             Transformer transformer = transformerFactory.newTransformer();

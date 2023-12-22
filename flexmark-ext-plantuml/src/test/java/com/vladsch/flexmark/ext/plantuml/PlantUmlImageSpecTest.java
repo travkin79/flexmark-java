@@ -12,7 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Collections;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 public class PlantUmlImageSpecTest {
     final private static DataHolder OPTIONS = new MutableDataSet()
             .set(Parser.EXTENSIONS, Collections.singleton(PlantUmlExtension.create()))
+            .set(HtmlRenderer.INDENT_SIZE, 2)
             .toImmutable();
 
     @Test
@@ -32,6 +34,9 @@ public class PlantUmlImageSpecTest {
         HtmlRenderer renderer = HtmlRenderer.builder(OPTIONS).build();
         Document document = parser.parse(mdFileContent);
         document.set(PlantUmlExtension.KEY_DOCUMENT_FILE_PATH, resource.getPath());
+        Map<String,String> referencedFileContents = new HashMap<>();
+        referencedFileContents.put("diagrams/classes.puml", readFileFromClasspath("/diagrams/classes.puml"));
+        document.set(PlantUmlExtension.KEY_DOCUMENT_PATH_TO_FILE_CONTENTS_MAP, referencedFileContents);
 
         String resultHtml = renderer.render(document);
 
@@ -40,11 +45,12 @@ public class PlantUmlImageSpecTest {
     }
 
     private String readFileFromClasspath(String filePath) throws IOException {
-        String fileContents;
+        StringBuffer contents = new StringBuffer();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                 this.getClass().getResourceAsStream(filePath)))) {
-            fileContents = reader.lines().collect(Collectors.joining("\n"));
+            contents.append(reader.readLine());
+            contents.append("\n");
         }
-        return fileContents;
+        return contents.toString();
     }
 }

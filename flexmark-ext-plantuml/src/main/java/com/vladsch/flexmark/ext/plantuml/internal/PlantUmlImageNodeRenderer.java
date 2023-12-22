@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class PlantUmlImageNodeRenderer implements NodeRenderer {
@@ -30,19 +31,28 @@ public class PlantUmlImageNodeRenderer implements NodeRenderer {
     }
 
     private void render(PlantUmlImage node, NodeRendererContext context, HtmlWriter htmlWriter) {
-        String currentMdFilePath = PlantUmlExtension.KEY_DOCUMENT_FILE_PATH.get(context.getDocument());
+        Map<String, String> referencedFilesContents = PlantUmlExtension.KEY_DOCUMENT_PATH_TO_FILE_CONTENTS_MAP.get(context.getDocument());
         String targetUrl = node.getUrl().toString();
-        Path targetPath = new File(currentMdFilePath).toPath().getParent().resolve(Path.of(targetUrl));
+
         String pumlFileContents = null;
-        try {
-            pumlFileContents = Files.readString(targetPath, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // TODO handle this
-            return;
+        if (referencedFilesContents != null) {
+            pumlFileContents = referencedFilesContents.get(targetUrl);
         }
 
-        plantUmlRenderer.renderPlantUmlCode(pumlFileContents, htmlWriter);
+        if (pumlFileContents == null) {
+            try {
+                String currentMdFilePath = PlantUmlExtension.KEY_DOCUMENT_FILE_PATH.get(context.getDocument());
+                Path targetPath = new File(currentMdFilePath).toPath().getParent().resolve(Path.of(targetUrl));
+                pumlFileContents = Files.readString(targetPath, StandardCharsets.UTF_8);
+            } catch (Exception e) {
+                e.printStackTrace();
+                // TODO handle this properly
+                plantUmlRenderer.renderPlantUmlCode(String.format("Could not read PlantUML file %s", targetUrl), htmlWriter, context);
+                return;
+            }
+        }
+
+        plantUmlRenderer.renderPlantUmlCode(pumlFileContents, htmlWriter, context);
     }
 
     public static class Factory implements NodeRendererFactory {
