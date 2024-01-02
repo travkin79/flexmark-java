@@ -2,6 +2,14 @@ package com.vladsch.flexmark.ext.plantuml;
 
 import com.vladsch.flexmark.ast.Image;
 
+/**
+ * Node representing statements like the following
+ *
+ * <pre>
+ *     ![image label](path/to/diagram.puml)
+ * </pre>
+ *
+ */
 public class PlantUmlImage extends Image {
     public PlantUmlImage() {}
 

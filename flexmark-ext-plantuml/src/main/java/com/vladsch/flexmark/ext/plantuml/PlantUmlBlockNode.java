@@ -8,6 +8,19 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * Node representing code blocks like the following
+ *
+ * <pre>
+ *     &#064;startuml
+ *         title PlantUML version: %version()
+ *
+ *         Image --|> Node
+ *         PlantUmlImage --|> Image
+ *     &#064;enduml
+ * </pre>
+ *
+ */
 public class PlantUmlBlockNode extends CodeBlock {
 
     private BasedSequence startMarker;
