@@ -1,5 +1,6 @@
 package com.vladsch.flexmark.ext.plantuml.internal;
 
+import com.google.common.html.HtmlEscapers;
 import com.vladsch.flexmark.ext.plantuml.PlantUmlBlockNode;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.html.HtmlWriter;
@@ -50,6 +51,13 @@ public class PlantUmlBlockNodeRenderer implements NodeRenderer {
         String htmlFormatted = formatHtml(plantUmlToHtmlResult, context);
         htmlWriter.noTrimLeading().append(htmlFormatted);
         htmlWriter.unIndent().tagLine("/figure");
+    }
+
+    void renderErrorMessage(String originalMessage, NodeRendererContext context, HtmlWriter htmlWriter) {
+        htmlWriter.withAttr().attr("style", "color:red").tag("span");
+        String escapedMessage = HtmlEscapers.htmlEscaper().escape(originalMessage);
+        htmlWriter.append(escapedMessage);
+        htmlWriter.tag("/span").line();
     }
 
     private String translatePlantUmlToHtml(String plantUmlSourceCode) {

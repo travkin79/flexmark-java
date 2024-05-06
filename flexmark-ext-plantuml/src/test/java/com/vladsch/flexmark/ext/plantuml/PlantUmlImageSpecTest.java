@@ -1,11 +1,13 @@
 package com.vladsch.flexmark.ext.plantuml;
 
+import com.vladsch.flexmark.ext.plantuml.internal.PlantUmlBlockNodeRenderer;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Document;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 import org.junit.Test;
+import com.vladsch.flexmark.html.HtmlWriter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,7 +27,7 @@ public class PlantUmlImageSpecTest {
             .toImmutable();
 
     @Test
-    public void test() throws IOException {
+    public void referencedPumlFilesRenderedToSvg() throws IOException {
         String expected = readFileFromClasspath("/images.html");
         URL resource = this.getClass().getResource("/images.md");
         String mdFileContent = readFileFromClasspath("/images.md");
@@ -42,6 +44,25 @@ public class PlantUmlImageSpecTest {
 
         assertNotNull(resultHtml);
         assertEquals(expected, resultHtml);
+    }
+
+    @Test
+    public void renderErrorMessageForMissingPumlFile() throws IOException {
+        URL resource = this.getClass().getResource("/images.md");
+        String mdFileContent = "![label](path/to/missing/file.puml)";
+
+        Parser parser = Parser.builder(OPTIONS).build();
+        HtmlRenderer renderer = HtmlRenderer.builder(OPTIONS).build();
+        Document document = parser.parse(mdFileContent);
+        document.set(PlantUmlExtension.KEY_DOCUMENT_FILE_PATH, resource.getPath());
+
+        String resultHtml = renderer.render(document);
+
+        assertNotNull(resultHtml);
+        String expectedPrefix = "<span style=\"color:red\">PlantUML file";
+        String expectedSuffix = "does not exist.</span>\n";
+        assertEquals(expectedPrefix, resultHtml.substring(0, expectedPrefix.length()));
+        assertEquals(expectedSuffix, resultHtml.substring(resultHtml.length() - expectedSuffix.length()));
     }
 
     private String readFileFromClasspath(String filePath) throws IOException {

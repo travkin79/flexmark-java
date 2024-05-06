@@ -32,10 +32,10 @@ public class PlantUmlImageNodeRenderer implements NodeRenderer {
 
     private void render(PlantUmlImage node, NodeRendererContext context, HtmlWriter htmlWriter) {
         Map<String, String> referencedFilesContents = PlantUmlExtension.KEY_DOCUMENT_PATH_TO_FILE_CONTENTS_MAP.get(context.getDocument());
-        String targetUrl = node.getUrl().toString();
+        String targetUrl = node.getUrl() != null ? node.getUrl().toString() : null;
 
         String pumlFileContents = null;
-        if (referencedFilesContents != null) {
+        if (targetUrl != null && referencedFilesContents != null) {
             pumlFileContents = referencedFilesContents.get(targetUrl);
         }
 
@@ -43,11 +43,20 @@ public class PlantUmlImageNodeRenderer implements NodeRenderer {
             try {
                 String currentMdFilePath = PlantUmlExtension.KEY_DOCUMENT_FILE_PATH.get(context.getDocument());
                 Path targetPath = new File(currentMdFilePath).toPath().getParent().resolve(Path.of(targetUrl));
+
+                if (!targetPath.toFile().exists()) {
+                    plantUmlRenderer.renderErrorMessage(String.format(
+                            "PlantUML file \"%s\" (resolved path: \"%s\") does not exist.", targetUrl, targetPath), context, htmlWriter);
+                    return;
+                }
+
                 pumlFileContents = Files.readString(targetPath, StandardCharsets.UTF_8);
             } catch (Exception e) {
+                // TODO handle this exception properly --> logging
                 e.printStackTrace();
-                // TODO handle this properly
-                plantUmlRenderer.renderPlantUmlCode(String.format("Could not read PlantUML file %s", targetUrl), htmlWriter, context);
+
+                plantUmlRenderer.renderErrorMessage(String.format(
+                        "Could not read PlantUML file \"%s\"", targetUrl), context, htmlWriter);
                 return;
             }
         }
