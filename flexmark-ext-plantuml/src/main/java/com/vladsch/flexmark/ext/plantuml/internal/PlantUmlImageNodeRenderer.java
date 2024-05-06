@@ -61,7 +61,7 @@ public class PlantUmlImageNodeRenderer implements NodeRenderer {
             }
         }
 
-        plantUmlRenderer.renderPlantUmlCode(pumlFileContents, htmlWriter, context);
+        plantUmlRenderer.renderPlantUmlCode(pumlFileContents, node.getText() != null ? node.getText().toString() : null, htmlWriter, context);
     }
 
     public static class Factory implements NodeRendererFactory {

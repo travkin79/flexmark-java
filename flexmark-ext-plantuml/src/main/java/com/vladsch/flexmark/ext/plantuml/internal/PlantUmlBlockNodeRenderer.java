@@ -46,10 +46,18 @@ public class PlantUmlBlockNodeRenderer implements NodeRenderer {
     }
 
     void renderPlantUmlCode(String plantUmlSourceCode, HtmlWriter htmlWriter, NodeRendererContext context) {
+        renderPlantUmlCode(plantUmlSourceCode, null, htmlWriter, context);
+    }
+
+    void renderPlantUmlCode(String plantUmlSourceCode, String caption, HtmlWriter htmlWriter, NodeRendererContext context) {
         htmlWriter.tagLine("figure").indent();
         String plantUmlToHtmlResult = translatePlantUmlToHtml(plantUmlSourceCode);
         String htmlFormatted = formatHtml(plantUmlToHtmlResult, context);
         htmlWriter.noTrimLeading().append(htmlFormatted);
+        if (caption != null && !caption.isBlank()) {
+            String escapedCaption = HtmlEscapers.htmlEscaper().escape(caption);
+            htmlWriter.tag("figcaption").append(escapedCaption).tag("/figcaption").line();
+        }
         htmlWriter.unIndent().tagLine("/figure");
     }
 
