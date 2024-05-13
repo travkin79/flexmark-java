@@ -7,7 +7,7 @@
  * 
  * Copyright © 2022-2024 Advantest Europe GmbH. All rights reserved.
  */
-package com.vladsch.flexmark.ext.plantuml.internal;
+package com.vladsch.flexmark.ext.figures.internal;
 
 import java.util.HashSet;
 import java.util.Set;
