@@ -1,13 +1,11 @@
 package com.vladsch.flexmark.ext.plantuml;
 
-import com.vladsch.flexmark.ext.plantuml.internal.PlantUmlBlockNodeRenderer;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Document;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 import org.junit.Test;
-import com.vladsch.flexmark.html.HtmlWriter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -69,8 +67,12 @@ public class PlantUmlImageSpecTest {
         StringBuffer contents = new StringBuffer();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                 this.getClass().getResourceAsStream(filePath)))) {
-            contents.append(reader.readLine());
-            contents.append("\n");
+        	String line = reader.readLine();
+        	while (line != null) {
+        		contents.append(line);
+                contents.append("\n");
+                line = reader.readLine();
+        	}
         }
         return contents.toString();
     }
