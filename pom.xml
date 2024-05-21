@@ -46,6 +46,7 @@
         <module>flexmark-ext-jekyll-tag</module>
         <module>flexmark-ext-macros</module>
         <module>flexmark-ext-media-tags</module>
+        <module>flexmark-ext-math</module>
         <module>flexmark-ext-plantuml</module>
         <module>flexmark-ext-resizable-image</module>
         <module>flexmark-ext-spec-example</module>
