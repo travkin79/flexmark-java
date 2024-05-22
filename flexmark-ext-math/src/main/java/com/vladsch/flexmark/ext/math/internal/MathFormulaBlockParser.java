@@ -34,22 +34,18 @@ public class MathFormulaBlockParser extends AbstractBlockParser {
     @Override
     public BlockContinue tryContinue(ParserState state) {
         if (this.blockData.finished) {
-            return BlockContinue.none();
-        }
-
-        if (state.isBlank()) {
-            return BlockContinue.atIndex(state.getNextNonSpaceIndex());
-        }
-
-        BasedSequence line = state.getLine();
-        int indexOfStartMarker = line.indexOf("$$");
-        if (indexOfStartMarker < 0) {
-            return BlockContinue.atIndex(state.getNextNonSpaceIndex());
+            this.blockNode.setEndMarker(blockData.endMarker);
+            this.blockNode.setChars(blockData.contents);
+            return BlockContinue.finished();
         }
         
-        this.blockNode.setEndMarker(blockData.endMarker);
-        this.blockData.finished = true;
-        return BlockContinue.atIndex(state.getIndex());
+        // read next line if we didn't see the end marker yet
+        BasedSequence line = state.getLine();
+        int indexOfStartMarker = line.indexOf("$$");
+        if (indexOfStartMarker >= 0) {
+            this.blockData.finished = true;
+        }
+        return BlockContinue.atColumn(state.getColumn());
     }
     
     @Override
@@ -130,10 +126,15 @@ public class MathFormulaBlockParser extends AbstractBlockParser {
             if (line.length() > indexOfFirstFormulaSymbol) {
                 BasedSequence lineRemainder = line.subSequence(indexOfFirstFormulaSymbol);
                 int indexOfEndMarkerInLineRemainder = lineRemainder.lastIndexOf("$$");
+                if (lineRemainder.indexOf("$$") != indexOfEndMarkerInLineRemainder) {
+                    return BlockStart.none();
+                }
                 if (indexOfEndMarkerInLineRemainder > 0) {
                     int indexOfFirstEndMarkerChar = indexOfFirstFormulaSymbol + indexOfEndMarkerInLineRemainder;
                     blockData.endOffset = line.getStartOffset() + indexOfFirstEndMarkerChar + 2;
                     blockData.endMarker = line.subSequence(indexOfFirstEndMarkerChar, indexOfFirstEndMarkerChar + 2);
+                    //blockData.contents = line.subSequence(indexOfFirstFormulaSymbol, indexOfFirstFormulaSymbol + indexOfEndMarkerInLineRemainder);
+                    blockData.finished = true;
                     return BlockStart.of(new MathFormulaBlockParser(blockData))
                             .atColumn(state.getColumn());
                 }
@@ -148,7 +149,7 @@ public class MathFormulaBlockParser extends AbstractBlockParser {
                     blockData.endOffset = currentLine.getStartOffset() + indexOfEndMarker + 2;
                     blockData.endMarker = currentLine.subSequence(indexOfEndMarker, indexOfEndMarker + 2);
                     return BlockStart.of(new MathFormulaBlockParser(blockData))
-                             .atColumn(state.getColumn());
+                            .atColumn(state.getColumn());
                 }
             }
 
