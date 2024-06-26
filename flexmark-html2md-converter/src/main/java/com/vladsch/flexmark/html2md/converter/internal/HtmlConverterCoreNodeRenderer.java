@@ -648,17 +648,15 @@ public class HtmlConverterCoreNodeRenderer implements PhasedHtmlNodeRenderer {
                     // see if the full attribute is emoji
                     int pos = emojiAlt.indexOf(":", EMOJI_ALT_PREFIX.length());
                     if (pos > 0) {
-                        String category = emojiAlt.substring(EMOJI_ALT_PREFIX.length(), pos);
+                        // NOTE: category is not significant since it can change, so it is ignored.
+                        // String category = emojiAlt.substring(EMOJI_ALT_PREFIX.length(), pos);
                         String shortcut = emojiAlt.substring(pos + 1);
-                        EmojiReference.Emoji emoji2 = EmojiShortcuts.getEmojiFromShortcut(shortcut);
-                        if (emoji2.category.equals(category)) {
-                            emoji = emoji2;
-                        }
+                        emoji = EmojiShortcuts.getEmojiFromShortcut(shortcut);
                     }
                 }
             }
 
-            if (emoji != null) {
+            if (emoji != null && emoji.shortcut != null) {
                 out.append(':').append(emoji.shortcut).append(':');
             } else {
                 LinkConversion conv = myHtmlConverterOptions.extInlineImage;
@@ -1050,7 +1048,7 @@ public class HtmlConverterCoreNodeRenderer implements PhasedHtmlNodeRenderer {
                 hadCode = true;
                 Element code = (Element) next;
                 //text = code.toString();
-                preText.renderChildren(code, false, null);
+                preText.inlineCode(() -> preText.renderChildren(code, false, null));
                 if (className.isEmpty()) className = Utils.removePrefix(code.className(), "language-");
             } else if (next.nodeName().equalsIgnoreCase("br")) {
                 preText.getMarkdown().append("\n");

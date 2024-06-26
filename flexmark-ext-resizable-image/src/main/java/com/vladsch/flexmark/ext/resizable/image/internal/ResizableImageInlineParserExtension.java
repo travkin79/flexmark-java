@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 public class ResizableImageInlineParserExtension implements InlineParserExtension {
-    final public static Pattern IMAGE_PATTERN = Pattern.compile("\\!\\[(\\S*)\\]\\((\\S*)\\s*=*(\\d*)x*(\\d*)\\)",
+    final public static Pattern IMAGE_PATTERN = Pattern.compile("\\!\\[([^\\s\\]]*)]\\(([^\\s\\]]+)\\s*=*(\\d*)x*(\\d*)\\)",
             Pattern.CASE_INSENSITIVE);
 
     public ResizableImageInlineParserExtension(LightInlineParser inlineParser) {
@@ -30,7 +30,7 @@ public class ResizableImageInlineParserExtension implements InlineParserExtensio
     @Override
     public boolean parse(@NotNull LightInlineParser inlineParser) {
         int index = inlineParser.getIndex();
-        char c = inlineParser.getInput().charAt(index + 1);
+        char c = inlineParser.getInput().safeCharAt(index + 1);
         if (c == '[') {
             BasedSequence[] matches = inlineParser.matchWithGroups(IMAGE_PATTERN);
             if (matches != null) {

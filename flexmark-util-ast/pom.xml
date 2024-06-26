@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.vladsch.flexmark</groupId>
         <artifactId>flexmark-java</artifactId>
-        <version>0.64.0</version>
+        <version>0.64.8</version>
     </parent>
 
     <artifactId>flexmark-util-ast</artifactId>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>15.0</version>
+            <version>24.0.1</version>
         </dependency>
     </dependencies>
 </project>
