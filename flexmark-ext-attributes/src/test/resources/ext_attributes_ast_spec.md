@@ -1046,7 +1046,7 @@ Document[0, 22]
 ```````````````````````````````` example(Anchor Targets - Cond 4.1: 3) options(anchors)
 # Heading {#custom-id}
 .
-<h1><a href="#custom-id" id="custom-id"></a>Heading</h1>
+<h1 id="custom-id"><a href="#custom-id" id="custom-id"></a>Heading</h1>
 .
 Document[0, 22]
   Heading[0, 22] textOpen:[0, 1, "#"] text:[2, 22, "Heading {#custom-id}"]
@@ -1664,7 +1664,7 @@ Document[0, 95]
 Heading{#id1} with multiple{#id2 style="color:red"} anchors{#id3}
 =================================================================
 .
-<h1 id="id3" style="color:red">Heading with multiple anchors</h1>
+<h1 style="color:red" id="id3">Heading with multiple anchors</h1>
 .
 Document[0, 131]
   Heading[0, 131] text:[0, 65, "Heading{#id1} with multiple{#id2 style=\"color:red\"} anchors{#id3}"] textClose:[66, 131, "================================================================="]
