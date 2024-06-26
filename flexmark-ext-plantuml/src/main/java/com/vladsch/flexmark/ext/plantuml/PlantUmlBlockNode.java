@@ -1,3 +1,12 @@
+/*
+ * This work is made available under the terms of the Eclipse Public License (EPL) Version 1.0.
+ * The EPL 1.0 accompanies this distribution.
+ * 
+ * You may obtain a copy of the License at
+ * https://www.eclipse.org/org/documents/epl-v10.html
+ * 
+ * Copyright © 2022-2024 Advantest Europe GmbH. All rights reserved.
+ */
 package com.vladsch.flexmark.ext.plantuml;
 
 import com.vladsch.flexmark.ast.CodeBlock;
@@ -8,6 +17,19 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * Node representing code blocks like the following
+ *
+ * <pre>
+ *     &#064;startuml
+ *         title PlantUML version: %version()
+ *
+ *         Image --|> Node
+ *         PlantUmlImage --|> Image
+ *     &#064;enduml
+ * </pre>
+ *
+ */
 public class PlantUmlBlockNode extends CodeBlock {
 
     private BasedSequence startMarker;
