@@ -34,6 +34,7 @@
         <module>flexmark-ext-emoji</module>
         <module>flexmark-ext-enumerated-reference</module>
         <module>flexmark-ext-escaped-character</module>
+        <module>flexmark-ext-figures</module>
         <module>flexmark-ext-footnotes</module>
         <module>flexmark-ext-gfm-issues</module>
         <module>flexmark-ext-gfm-strikethrough</module>
